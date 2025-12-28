@@ -14,6 +14,5 @@ module.exports.registerUser = async (req, res,next) => {
 
      const token = userModel.generateAuthToken();
      res.status(201).json({ user, token });
-     
    
-}
+}  
