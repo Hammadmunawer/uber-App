@@ -21,5 +21,7 @@ router.post('/login',  [ body('email').isEmail().withMessage('Invalid email addr
 
 router.get('/userProfile', authmiddleware.authUser, userController.getUserProfile);
 
+router.get('/logout',authmiddleware.authUser, userController.logoutUser);
+
 
 module.exports = router;
