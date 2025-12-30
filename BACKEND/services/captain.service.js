@@ -24,4 +24,5 @@ const captain = await captainModel.create({
     }   })
 
     return captain;
-}
+};
+
