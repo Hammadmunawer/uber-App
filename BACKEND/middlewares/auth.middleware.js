@@ -9,6 +9,7 @@ module.exports.authUser = async (req, res, next) => {
     let token;
     if (req.cookies?.token) {
         token = req.cookies.token;
+        
     } 
    
 
@@ -23,6 +24,7 @@ module.exports.authUser = async (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized: No token' });
     }
     const isBlacklisted = await blacklistTokenModel.findOne({ token:token });
+    
     if (isBlacklisted) {
         return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
     }

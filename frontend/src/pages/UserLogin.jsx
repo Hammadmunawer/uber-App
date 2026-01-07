@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { use, useState } from 'react'
+import { Link ,useNavigate} from 'react-router-dom'
+import { UserDataContext } from '../context/UserContext';
+import axios from 'axios';
 
 const userLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userData, setUserData] = useState({});
+ const {user, setUser} = React.useContext(UserDataContext);
+   const navigate = useNavigate();
 
-const submitHandler = (e) => {
+
+const submitHandler = async (e) => {
   e.preventDefault();
   const payload = {
     email,
     password
   };
+  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, payload);
 
+  if(response.status === 200){ 
+    const data= response.data;
+    setUser(data.user);  
+    localStorage.setItem('token', data.token);
+    navigate('/home');
+   }
   setUserData(payload);
 
   console.log(payload); 
@@ -34,7 +46,8 @@ const submitHandler = (e) => {
              setEmail(e.target.value);
                
         }}
-        className='bg-[#eeeeee] mb-7 rounded px-4 py-2  border w-full text-xl placeholder:text-base' required type="email" placeholder='email@example.com' />
+        className='bg-[#eeeeee] 
+        mb-7 rounded px-4 py-2  border w-full text-xl placeholder:text-base' required type="email" placeholder='email@example.com' />
         <h3 className='mb-2 text-lg font-medium'>Enter Your Password</h3>
         <input 
         value={password} 
